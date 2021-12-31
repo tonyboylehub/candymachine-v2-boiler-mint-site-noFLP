@@ -4,6 +4,11 @@ I'll update the readme later with a full formated doc but for now this will have
 
 But essentially you want to head into 3 main areas after install all the repositories and added your candy machine ID to the .env
 
+1. Clone
+2. Yarn Install
+3. Rename .env-example to .evn and add in Candy Machine ID
+4. Yarn Start
+
 --------------------
 
 src/app.tsx
