@@ -2,7 +2,7 @@
 
 I'll update the readme later with a full formated doc but for now this will have to do!
 
-But essentially you want to head into 3 main areas
+But essentially you want to head into 3 main areas after install all the repositories.
 
 --------------------
 
