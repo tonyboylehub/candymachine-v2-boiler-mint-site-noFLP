@@ -2,7 +2,7 @@
 
 I'll update the readme later with a full formated doc but for now this will have to do!
 
-But essentially you want to head into 3 main areas after install all the repositories.
+But essentially you want to head into 3 main areas after install all the repositories and added your candy machine ID to the .env
 
 --------------------
 
