@@ -27,12 +27,14 @@ export interface PublicSaleSettings {
   title: string,
   desc: string,
   countdown: boolean,
-  endDate: anchor.BN,
+  startDate: anchor.BN,
+  endDate: anchor.BN | undefined,
   itemsAvailable: boolean,
   itemsRemaining: boolean,
   itemsRedeemed: boolean,
   title2: string,
   desc2: string,
+  
 
 }
 

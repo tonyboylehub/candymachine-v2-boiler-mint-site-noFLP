@@ -44,12 +44,15 @@ export const welcomeSettings: WelcomeSettings = {
     title: 'Welcome!',
     desc: 'Connect your wallet and load in! Whitelist mint starts soon!',
 
-    countdownEnable: true,
-    countdownTo: date('2 Jan 2022 00:00:00 GMT'),
-  
   //Wallet Connected Title and Description
     title2: 'Welcome (Connected) ',
     desc2:'Congratulations! You connected your wallet',
+
+  // Countdown Timer
+    countdownEnable: false,
+    countdownTo: date('2 Jan 2022 00:00:00 GMT'),
+    //Example date below
+    // date('29 2021 00:00:00 GMT')
 
 
 }
@@ -68,25 +71,25 @@ export const welcomeSettings: WelcomeSettings = {
 
 export const whitelistSettings: WhitelistSettings = {
 
-    enabled: false,
-    startDate: date('2nd Dec 2022 00:00:00 GMT'),
+  //If you want to use the whitelist feature enable it.
+    enabled: true,
 
-    //Make sure your whitelist end date ends before your Candymachine comes online otherwise there will
-    //be a flash of the whitelist UI each time someone loads up the site while the wallet connects.
+    startDate: date('15 Dec 2021 00:00:00 GMT'),
+    endDate: date('1 Jan 2022 00:00:00 GMT'),
     countdown: true,
-    endDate: date('3 Jan 2022 00:00:00 GMT'),
+    //Example date below
+    // date('29 2021 00:00:00 GMT')
+    
 
-    //Wallet Connected Title and Description
+  //Wallet Connected Title and Description
       title: 'White List (connected)',
       desc: 'White list area with wallet connected',
 
-    
-    
-    //Wallet Disconected Title and Description
+  //Wallet Disconected Title and Description
       title2: 'White List (disconected)',
       desc2:'White list area with disconected wallet',
 
-    //Enable stats
+  //Enable stats
       itemsAvailable: true,
       itemsRemaining: true,
       itemsRedeemed: true,
@@ -100,6 +103,14 @@ export const whitelistSettings: WhitelistSettings = {
 
 export const publicSaleSettings: PublicSaleSettings = {
 
+    //start date and end date must match your Candy Machine Config for public launch!
+
+    startDate: date('30 Dec 2021 00:00:00 GMT'),
+    endDate: undefined,
+    countdown: false,
+    //Example date below
+    // date('29 2021 00:00:00 GMT')
+
   
   //Wallet Connected Title and Description
   title: 'Public Sale',
@@ -109,10 +120,6 @@ export const publicSaleSettings: PublicSaleSettings = {
   //Wallet Disconnected Title and Description
   title2: ' Public Sale (disconnected)',
   desc2:'This is a public sale with wallet disconnected',
-
-  //Countdown Settings
-  countdown: true,
-  endDate: date('1 Dec 2021 00:00:00 GMT'),
 
   //Enable stats
   itemsAvailable: true,

@@ -29,15 +29,19 @@ export function getPhase(
   const curr = new Date().getTime();
   const candyMachineGoLive = toDate(candyMachine?.state.goLiveDate)?.getTime();
   const whiteListStart = toDate(whitelistSettings.startDate)?.getTime();
+  const whiteListEnd = toDate(whitelistSettings.endDate)?.getTime();
+  const publicSaleStart = toDate(publicSaleSettings.startDate)?.getTime();
+  const publicSaleEnd = toDate(publicSaleSettings.endDate)?.getTime();
 
 //Countdown, WhiteList Minting, Public Minting,
 
 
 
-  if (candyMachineGoLive && curr > candyMachineGoLive) {
+  if (publicSaleStart && curr > publicSaleStart) {
+
     return Phase.PublicMint;
   } 
-  else if (whitelistSettings.enabled && whiteListStart && curr > whiteListStart ) {
+  else if (whitelistSettings.enabled && whiteListStart && whiteListEnd && curr > whiteListStart && curr < whiteListEnd ) {
     return Phase.WhiteListMint;
   } else {
   return Phase.Welcome;
@@ -48,7 +52,7 @@ export function getPhase(
 const Header = (props: {
   phaseName: string;
   desc: string;
-  date: anchor.BN | undefined;
+  date?: anchor.BN | undefined;
   status?: string;
   countdown?: boolean;
   countdownEnable?: boolean;
@@ -127,6 +131,7 @@ export const PhaseHeader = ({
           phaseName={whitelistSettings.title}
           desc={whitelistSettings.desc}
           date={whitelistSettings.endDate}
+          countdownEnable={whitelistSettings.countdown}
           status="WHITELIST LIVE"
         />
         {whitelistSettings.itemsAvailable === true && (
@@ -149,6 +154,7 @@ export const PhaseHeader = ({
           phaseName={whitelistSettings.title2}
           desc={whitelistSettings.desc2}
           date={whitelistSettings.endDate}
+          countdownEnable={whitelistSettings.countdown}
           status="WHITELIST LIVE"
         />
       
@@ -156,12 +162,14 @@ export const PhaseHeader = ({
         
       )}
 
-      {phase === Phase.PublicMint && (
+
+      {phase === Phase.PublicMint && candyMachine && (
         <>
         <Header
           phaseName={publicSaleSettings.title}
           desc={publicSaleSettings.desc}
-          date={candyMachine?.state.goLiveDate}
+          date={publicSaleSettings.endDate}
+          countdownEnable={publicSaleSettings.countdown}
           status="LIVE"
         />
         {publicSaleSettings.itemsAvailable === true && (
@@ -178,6 +186,19 @@ export const PhaseHeader = ({
         
       )}
 
+      {phase === Phase.PublicMint && !candyMachine && (
+        <>
+        <Header
+          phaseName={publicSaleSettings.title}
+          desc={publicSaleSettings.desc}
+          date={publicSaleSettings.endDate}
+          countdownEnable={publicSaleSettings.countdown}
+          status="LIVE"
+        />
+      
+        </>  
+        
+      )}
         
     </>
   );
