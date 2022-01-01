@@ -161,3 +161,8 @@ export function createAssociatedTokenAccountInstruction(
     data: Buffer.from([]),
   });
 }
+
+export function formatSol(sol:number){
+    var formated = sol / 1000000000
+    return formated
+}

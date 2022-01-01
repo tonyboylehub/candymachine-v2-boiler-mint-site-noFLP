@@ -100,10 +100,14 @@ export const MintButton = ({
       onClick={async () => {
         setClicked(true);
         if (candyMachine?.state.isActive && candyMachine?.state.gatekeeper) {
+          console.log('gatekeeper active')
           if (gatewayStatus === GatewayStatus.ACTIVE) {
+            console.log(gatewayStatus + GatewayStatus.ACTIVE)
             setClicked(true);
           } else {
-            await requestGatewayToken();
+            console.log('requeting token')
+             let token = await requestGatewayToken();
+            console.log(token);
           }
         } else {
           await onMint();

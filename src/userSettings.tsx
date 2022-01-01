@@ -1,5 +1,6 @@
 import * as anchor from '@project-serum/anchor';
-import { WhitelistSettings, PublicSaleSettings, WelcomeSettings } from './userSettingsInterfaces'
+
+import { WhitelistSettings, PublicSaleSettings, WelcomeSettings, WalletSettings } from './userSettingsInterfaces'
 
 function date(date: string){
   let f = new anchor.BN(new Date(date).getTime() / 1000)
@@ -74,8 +75,8 @@ export const whitelistSettings: WhitelistSettings = {
   //If you want to use the whitelist feature enable it.
     enabled: true,
 
-    startDate: date('15 Dec 2021 00:00:00 GMT'),
-    endDate: date('1 Jan 2022 00:00:00 GMT'),
+    startDate: date('1 Jan 2022 00:00:00 GMT'),
+    endDate: date('2 Jan 2022 00:00:00 GMT'),
     countdown: true,
     //Example date below
     // date('29 2021 00:00:00 GMT')
@@ -105,7 +106,7 @@ export const publicSaleSettings: PublicSaleSettings = {
 
     //start date and end date must match your Candy Machine Config for public launch!
 
-    startDate: date('30 Dec 2021 00:00:00 GMT'),
+    startDate: date('2 Jan 2022 00:00:00 GMT'),
     endDate: undefined,
     countdown: false,
     //Example date below
@@ -125,6 +126,14 @@ export const publicSaleSettings: PublicSaleSettings = {
   itemsAvailable: true,
   itemsRemaining: true,
   itemsRedeemed: true,
+
+}
+
+export const walletSettings: WalletSettings = {
+
+  showAddress: true,
+  showBalance: false,
+  whiteListTokenId: new anchor.web3.PublicKey('E5BuTQcD22n6FyC2RWMtVNH2uZVNqAcy5855P8GrTxx4')
 
 }
 

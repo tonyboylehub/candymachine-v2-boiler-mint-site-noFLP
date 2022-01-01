@@ -1,4 +1,5 @@
 import * as anchor from '@project-serum/anchor';
+import { PublicKey } from '@solana/web3.js';
 
 function date(date: string){
   let e = new Date(date)
@@ -46,5 +47,12 @@ export interface WelcomeSettings {
   countdownTo: anchor.BN | undefined,
   title2: string,
   desc2: string,
+
+}
+
+export interface WalletSettings {
+  showBalance: boolean,
+  showAddress: boolean,
+  whiteListTokenId: PublicKey,
 
 }
