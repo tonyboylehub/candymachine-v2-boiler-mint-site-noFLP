@@ -16,13 +16,13 @@ But essentially you want to head into 3 main areas after installing all the repo
 
 src/app.tsx
 
-This is where all the HTML for the side is laid out. I wrote it mainly in HTML purely to make it easier and logical for beginners in the space.
+This is where all the HTML for the site is laid out. I wrote it mainly in HTML purely to make it easier and logical for beginners in the space.
 
 --------------------
 
 src/usersettings.tsx
 
-This is where you can control the UI of the minting machine. There are currently coloring options but I will add these at a later date.
+This is where you can control the UI of the minting machine.
 
 --------------------
 
