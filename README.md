@@ -9,7 +9,7 @@ But essentially you want to head into 3 main areas after installing all the repo
 
 1. Clone
 2. Yarn Install
-3. Rename .env-example to .evn and add in Candy Machine ID
+3. Rename .env-example to .env and add in Candy Machine ID
 4. Yarn Start
 
 --------------------
