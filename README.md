@@ -70,7 +70,7 @@ So if Whitelist starts on 25th January you would actually set the Welcome phase 
 
 Subsequently if turn the countdown on in the WhiteList phase then it would countdown to the Whitelist end date. This is so people can have countdowns to whitelist ending if they are not directly leading into a public phase after.
 
-#Minting Panic
+# Minting Panic
 There is a mintingPanic option availbe in user settings. If for what ever reason you are experiance a technical issue during launch or for what ever reason you need it turning the mintingPanic to true will disbale all minting on the UI and provide a message of your choice.
 
 # Update Log
