@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import { CircularProgress, Container, Snackbar } from "@material-ui/core";
+import { Container, Snackbar } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Alert from "@material-ui/lab/Alert";
 
 import * as anchor from "@project-serum/anchor";
 
-import { Connection, PublicKey } from "@solana/web3.js";
+import { PublicKey } from "@solana/web3.js";
 
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletDialogButton } from "@solana/wallet-adapter-material-ui";
@@ -20,8 +20,8 @@ import {
   mintOneToken,
 } from "./candy-machine";
 
-import { AlertState, formatSol } from "./utils";
-import { CTAButton, MintButton } from "./MintButton";
+import { AlertState,} from "./utils";
+import {  MintButton } from "./MintButton";
 import { getPhase, Phase, PhaseHeader } from "./PhaseHeader";
 import { GatewayProvider } from "@civic/solana-gateway-react";
 import {
@@ -32,8 +32,7 @@ import {
   MintWhitelistCustomHTML,
   MintPublicSaleCustomHTML,
 } from "./userSettings";
-import { isFunction } from "lodash";
-import { publicKey } from "@project-serum/anchor/dist/utils";
+
 
 const ConnectButton = styled(WalletDialogButton)`
   position: absolute;
@@ -69,13 +68,13 @@ export interface HomeProps {
 const Home = (props: HomeProps) => {
   const [yourSOLBalance, setYourSOLBalance] = useState<number | null>(null);
   const rpcUrl = props.rpcHost;
-  const [whiteListTokenBalance, setWhiteListTokenBalance] = useState<number | null>(null);
+  const [whiteListTokenBalance, setWhiteListTokenBalance] = useState<number>(0);
   const [isMinting, setIsMinting] = useState(false); // true when user got to press MINT
-  const [mintingTotal, setMintingTotal] = useState<number | null>(null);
+  const [mintingTotal, setMintingTotal] = useState<number>(0);
   const [itemsAvailable, setItemsAvailable] = useState<number | null>(null);
 
   const [candyMachine, setCandyMachine] = useState<CandyMachineAccount>();
-  const [currentTotalMints, setCurrentTotalMints] = useState<number>();
+
   const [price, setPrice] = useState<number | null>(null);
 
   const wallet = useWallet();
@@ -129,6 +128,8 @@ const Home = (props: HomeProps) => {
             message: "Congratulations! Mint succeeded!",
             severity: "success",
           });
+
+          setMintingTotal(mintingTotal + 1)
 
           if (whiteListTokenBalance && whiteListTokenBalance > 0)
             setWhiteListTokenBalance(whiteListTokenBalance - 1);
@@ -216,13 +217,17 @@ const Home = (props: HomeProps) => {
         anchorWallet?.publicKey &&
         candyMachine?.state.whitelistMintSettings?.mint
       ) {
+        try{
         var tokenAmount = await props.connection.getParsedTokenAccountsByOwner(
           anchorWallet.publicKey,
           { mint: candyMachine?.state.whitelistMintSettings?.mint }
         );
         setWhiteListTokenBalance(
-          tokenAmount.value[0].account.data.parsed.info.tokenAmount.amount | 0
+          tokenAmount.value[0].account.data.parsed.info.tokenAmount.amount
         );
+      } catch {
+        setWhiteListTokenBalance(0);
+      }
       }
     }
     getTokenAmount();
@@ -273,14 +278,14 @@ const Home = (props: HomeProps) => {
                 )}
               {phase === Phase.PublicMint &&
                 publicSaleSettings.enableCustomHTML && (
-                  <MintWhitelistCustomHTML />
+                  <MintPublicSaleCustomHTML />
                 )}
 
               {(phase === Phase.PublicMint || Phase.WhiteListMint) && (
                 <>
                   {phase === Phase.WhiteListMint && (
                     <div className="card minting-info text-center">
-                      {whiteListTokenBalance ? (
+                      {whiteListTokenBalance >= 0 ? (
                         <h1>{whiteListTokenBalance}</h1>
                       ) : (
                         <h1 className="loading"></h1>
@@ -297,8 +302,8 @@ const Home = (props: HomeProps) => {
                     justifyContent="space-between"
                     color="textSecondary"
                   >
-                    <div>
-                      <p className=" text-start">
+                    <div className="test-stat">
+                      
                         {(phase === Phase.WhiteListMint ||
                           phase === Phase.PublicMint) &&
                           (itemsAvailable &&
@@ -311,7 +316,7 @@ const Home = (props: HomeProps) => {
                           ) : (
                             <p className="loading"></p>
                           ))}
-                      </p>
+                      
                     </div>
 
                     <div className="text-end">
