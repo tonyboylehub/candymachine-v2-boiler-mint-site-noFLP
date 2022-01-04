@@ -63,7 +63,7 @@ To combat this the Mint button is disabled on the site unless the whitelist date
 
 If the dates are met the UI will switch to the whitelisting phase, and enable the mint button on the site enabling users of the token to redeem their NFT.
 
-#Countdowns
+# Countdowns
 My countdowns work slightly different, mine count down to the **END** of the current phase. Not the start of something else.
 
 So if Whitelist starts on 25th January you would actually set the Welcome phase to end on 25th January and countdown to that date.
