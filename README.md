@@ -57,7 +57,7 @@ Please pay attention to the dates for each section as this determines how the Mi
 # 3 Phase MintUI
 There are 3 phases to the minting UI.
 
-``Welcome -> Whitelist(optional)->Public Mint``
+``Welcome -> Whitelist(optional) ->Public Mint``
 
 To set this correctly you have to set your dates up correctly in the `userSettings.tsx` as well as various other settings such as custom Title, custom description, and even under each phase I've left a little React component that has a marked HTML area for each phase that will inject into the mintUI box.
 
@@ -76,10 +76,6 @@ While the UI has a whitelisting function you still need to set up your candy mac
 PLEASE NOTE - My UI has no effect on the actual whitelist itself, it's just enabling a UI and enabling a button allowing people to connect to candy machine. You CandyMachine v2 has to be set up 100% correctly with SLP token whitelist for the whitelist function to work as expect.
 
 For white listing you need create your own SLP token. With whitelisting enabled on the Candy Machine v2 you set your custom SLP token address and update it to the Candy Machine. When ever someone visits your Candy Machine and holds on of your SLP tokens they can mint an item wether your Candy Machine v2 is live or not.
-
-To combat this the Mint button is disabled on the site unless the whitelist dates are met within the `src/userSettings.tsx` file.
-
-If the dates are met the UI will switch to the whitelisting phase, and enable the mint button on the site enabling users of the token to redeem their NFT.
 
 # Countdowns
 My countdowns work slightly different, the countdowns count to the **END** of the current phase. Not the start of something else.
