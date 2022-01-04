@@ -13,6 +13,28 @@ But essentially you want to head into 3 main areas after installing all the repo
 4. Yarn Start
 
 --------------------
+v1.2 update
+
+- Trimmed out all final remains of Metaplex FLP.
+
+- Added Mint panic function to user settings. 
+This will disable minting UI on the Front End in one setting and display a custom message.
+
+- Removed Confetti which wasn't connected to anything. Should fix the Yarn install error.
+
+- Added nearly all styling varibles to userCSS.css.
+User this area to color your site and change different options. Good for beginners are things are clearly labeled.
+For more advaned users head over to app.css
+
+- Got rid of the disconnected and connected phases that would show different content based on if your wallet was connected or not. This was confusing and I swaped out to a single UI for each phase.
+
+- Added custom user HTML options for the 3 phases of the Minting UI including Welcome, Whitelist Minting, and Public Sale. The custom HTML will appear in the box if enabled based on each stage.
+
+- Added a few more user settings.
+
+- Restyled The Mint UI box.
+
+-------------------
 
 src/app.tsx
 
