@@ -315,9 +315,6 @@ const Home = (props: HomeProps) => {
                     color="textSecondary"
                   >
                     <div className="test-stat">
-                    {mintingTotal  +
-                                " / " +
-                                itemsAvailable}
                         {(phase === Phase.WhiteListMint ||
                           phase === Phase.PublicMint) &&
                           (itemsAvailable !== null &&
