@@ -25,3 +25,5 @@ typings/
 
 #Enviroment File
 .env
+
+.common
