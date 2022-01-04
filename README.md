@@ -37,15 +37,15 @@ The site is mobile ready in the sense that it has a mobile menu and some preset 
 ### Site Editing
 There are 3 main areas to focus on editing and they are;
 
- **Site Design** - `src/app.tsx`
+ **Site Design** - `src/app.tsx`<br/>
 All the HTML is located here and includes navigation, mobile menus. You'll need basic HTML knowledge to look through this and adjust the text and images.
 
-**Site Style** - `src/userCSS.css`
+**Site Style** - `src/userCSS.css`<br/>
 I've moved all the main colors and styling into CSS variables into this file to make everything accessible in one area for new people.
 
 If you are more comfortable with css then head over to `src/app.css` 
 
- **User Settings** - `src/userSettings.tsx`
+ **User Settings** - `src/userSettings.tsx`<br/>
 These are the user settings that can display some custom elements on the MintUI and also handle the date logic for showing each of the 3 phases of the MintUI.
 
 	Welcome-> WhiteList Mint(*if enabled*) -> Public Mint
