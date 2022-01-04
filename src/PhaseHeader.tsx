@@ -1,12 +1,17 @@
-import * as anchor from '@project-serum/anchor';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { PhaseCountdown } from './countdown';
-import { toDate } from './utils';
-import { FairLaunchAccount } from './fair-launch';
-import { CandyMachineAccount } from './candy-machine';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { publicSaleSettings, whitelistSettings, welcomeSettings } from './userSettings';
+import * as anchor from "@project-serum/anchor";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import { PhaseCountdown } from "./countdown";
+import { toDate } from "./utils";
+import { CandyMachineAccount } from "./candy-machine";
+import { useWallet } from "@solana/wallet-adapter-react";
+import {
+  publicSaleSettings,
+  whitelistSettings,
+  welcomeSettings,
+  mintPanic,
+} from "./userSettings";
+import { Container } from "@material-ui/core";
 
 export enum Phase {
   AnticipationPhase, // FL, AKA Phase 0
@@ -20,11 +25,11 @@ export enum Phase {
   WhiteListMint,
   PublicMint,
   Welcome,
+  Panic,
 }
 
 export function getPhase(
-  fairLaunch: FairLaunchAccount | undefined,
-  candyMachine: CandyMachineAccount | undefined,
+  candyMachine: CandyMachineAccount | undefined
 ): Phase {
   const curr = new Date().getTime();
   const candyMachineGoLive = toDate(candyMachine?.state.goLiveDate)?.getTime();
@@ -33,25 +38,28 @@ export function getPhase(
   const publicSaleStart = toDate(publicSaleSettings.startDate)?.getTime();
   const publicSaleEnd = toDate(publicSaleSettings.endDate)?.getTime();
 
-//Countdown, WhiteList Minting, Public Minting,
+  //Countdown, WhiteList Minting, Public Minting,
 
-
-
-  if (publicSaleStart && curr > publicSaleStart) {
-
+  if (mintPanic.enabled === true) {
+    return Phase.Panic;
+  } else if (publicSaleStart && curr > publicSaleStart) {
     return Phase.PublicMint;
-  } 
-  else if (whitelistSettings.enabled && whiteListStart && whiteListEnd && curr > whiteListStart && curr < whiteListEnd ) {
+  } else if (
+    whitelistSettings.enabled &&
+    whiteListStart &&
+    whiteListEnd &&
+    curr > whiteListStart &&
+    curr < whiteListEnd
+  ) {
     return Phase.WhiteListMint;
   } else {
-  return Phase.Welcome;
+    return Phase.Welcome;
   }
-
 }
 
 const Header = (props: {
   phaseName: string;
-  desc: string;
+  desc: string | undefined;
   date?: anchor.BN | undefined;
   status?: string;
   countdown?: boolean;
@@ -60,54 +68,66 @@ const Header = (props: {
   const { phaseName, desc, date, status, countdownEnable } = props;
   return (
     <>
-    <Grid container justifyContent="center" className='mintHeader pb-2' alignItems='center'>
-      <Grid xs={12} justifyContent="center" direction="column">
-        <Typography variant="h5" style={{ fontWeight: 600 }}>
-          {phaseName}
-        </Typography>
-        
-      </Grid>
-      <Grid xs={12} container justifyContent="center">
       {countdownEnable === true && (
-          <PhaseCountdown
-          date={toDate(date)}
-          style={{ justifyContent: 'flex-end' }}
-          status={status || 'COMPLETE'}
-        />
-        )}
-        
+        <Grid
+          container
+          style={{ position: "absolute", top: "-30px", left: "0px" }}
+        >
+          <Container style={{ justifyContent: "center" }}>
+            <PhaseCountdown
+              date={toDate(date)}
+              style={{ justifyContent: "center" }}
+              status={status || "COMPLETE"}
+            />
+          </Container>
+        </Grid>
+      )}
+      <Grid container className="mintHeader" alignItems="center">
+        <Grid>
+          <Typography
+            variant="h5"
+            style={{ fontWeight: 600, textAlign: "center" }}
+            className="pb-2"
+          >
+            {phaseName}
+          </Typography>
+        </Grid>
       </Grid>
-    </Grid>
-    <Typography className='pb-2' variant="body1" color="textSecondary">
-      {desc}
-    </Typography>
-  </>
+      {desc && (
+        <Typography className="pb-2" variant="body1" color="textSecondary">
+          {desc}
+        </Typography>
+      )}
+    </>
   );
 };
 
 type PhaseHeaderProps = {
   phase: Phase;
-  fairLaunch?: FairLaunchAccount;
+
   candyMachine?: CandyMachineAccount;
-  candyMachinePredatesFairLaunch: boolean;
+ 
   rpcUrl: string;
 };
 
 export const PhaseHeader = ({
   phase,
-  fairLaunch,
+  
   candyMachine,
-  candyMachinePredatesFairLaunch,
-  rpcUrl,
+ 
+  
 }: PhaseHeaderProps) => {
   const wallet = useWallet();
-  console.log('D', candyMachine);
-  console.log('Wallet', wallet);
+  console.log("D", candyMachine);
+  console.log("Wallet", wallet);
 
   return (
     <>
-     
-      {phase === Phase.Welcome && !candyMachine && (
+      {phase === Phase.Panic && (
+        <Header phaseName={mintPanic.title} desc={mintPanic.desc} />
+      )}
+
+      {phase === Phase.Welcome && (
         <Header
           phaseName={welcomeSettings.title}
           desc={welcomeSettings.desc}
@@ -116,90 +136,29 @@ export const PhaseHeader = ({
         />
       )}
 
-      {phase === Phase.Welcome && candyMachine && (
-        <Header
-          phaseName={welcomeSettings.title2}
-          desc={welcomeSettings.desc2}
-          date={welcomeSettings.countdownTo}
-          countdownEnable={welcomeSettings.countdownEnable}
-        />
-      )}
-
-        {phase === Phase.WhiteListMint && candyMachine && (
+      {phase === Phase.WhiteListMint && (
         <>
-        <Header
-          phaseName={whitelistSettings.title}
-          desc={whitelistSettings.desc}
-          date={whitelistSettings.endDate}
-          countdownEnable={whitelistSettings.countdown}
-          status="WHITELIST LIVE"
-        />
-        {whitelistSettings.itemsAvailable === true && (
-          <p className='pb-2'>Items Available: {candyMachine?.state.itemsAvailable}</p>
-        )}
-        {whitelistSettings.itemsRemaining === true && (
-          <p className='pb-2'>Items Remaining: {candyMachine?.state.itemsRemaining}</p>
-        )}
-        {whitelistSettings.itemsRedeemed === true && (
-          <p className='pb-2'>Items Redeemed: {candyMachine?.state.itemsRedeemed}</p>
-        )}
-      
-        </>  
-        
+          <Header
+            phaseName={whitelistSettings.title}
+            desc={whitelistSettings.desc}
+            date={whitelistSettings.endDate}
+            countdownEnable={whitelistSettings.countdown}
+            status="WHITELIST LIVE"
+          />
+        </>
       )}
 
-      {phase === Phase.WhiteListMint && !candyMachine && (
+      {phase === Phase.PublicMint && (
         <>
-        <Header
-          phaseName={whitelistSettings.title2}
-          desc={whitelistSettings.desc2}
-          date={whitelistSettings.endDate}
-          countdownEnable={whitelistSettings.countdown}
-          status="WHITELIST LIVE"
-        />
-      
-        </>  
-        
+          <Header
+            phaseName={publicSaleSettings.title}
+            desc={publicSaleSettings.desc}
+            date={publicSaleSettings.endDate}
+            countdownEnable={publicSaleSettings.countdown}
+            status="LIVE"
+          />
+        </>
       )}
-
-
-      {phase === Phase.PublicMint && candyMachine && (
-        <>
-        <Header
-          phaseName={publicSaleSettings.title}
-          desc={publicSaleSettings.desc}
-          date={publicSaleSettings.endDate}
-          countdownEnable={publicSaleSettings.countdown}
-          status="LIVE"
-        />
-        {publicSaleSettings.itemsAvailable === true && (
-          <p className='pb-2'>Items Available: {candyMachine?.state.itemsAvailable}</p>
-        )}
-        {publicSaleSettings.itemsRemaining === true && (
-          <p className='pb-2'>Items Remaining: {candyMachine?.state.itemsRemaining}</p>
-        )}
-        {publicSaleSettings.itemsRedeemed === true && (
-          <p className='pb-2'>Items Redeemed: {candyMachine?.state.itemsRedeemed}</p>
-        )}
-      
-        </>  
-        
-      )}
-
-      {phase === Phase.PublicMint && !candyMachine && (
-        <>
-        <Header
-          phaseName={publicSaleSettings.title}
-          desc={publicSaleSettings.desc}
-          date={publicSaleSettings.endDate}
-          countdownEnable={publicSaleSettings.countdown}
-          status="LIVE"
-        />
-      
-        </>  
-        
-      )}
-        
     </>
   );
 };

@@ -11,48 +11,40 @@ export interface WhitelistSettings {
 
     enabled: boolean,
     title: string,
-    desc: string,
+    desc: string | undefined,
     countdown: boolean,
     startDate: anchor.BN,
     endDate: anchor.BN,
-    itemsAvailable: boolean,
-    itemsRemaining: boolean,
-    itemsRedeemed: boolean,
-    title2: string,
-    desc2: string,
+    enableCustomHTML: boolean,
+
+}
+
+export interface MintPanic {
+
+  enabled: boolean,
+  title: string,
+  desc: string,
 
 }
 
 export interface PublicSaleSettings {
 
   title: string,
-  desc: string,
+  desc: string | undefined,
   countdown: boolean,
   startDate: anchor.BN,
   endDate: anchor.BN | undefined,
-  itemsAvailable: boolean,
-  itemsRemaining: boolean,
-  itemsRedeemed: boolean,
-  title2: string,
-  desc2: string,
-  
+  enableCustomHTML: boolean,
 
 }
 
 export interface WelcomeSettings {
 
   title: string,
-  desc: string,
+  desc: string | undefined,
   countdownEnable: boolean,
   countdownTo: anchor.BN | undefined,
-  title2: string,
-  desc2: string,
-
-}
-
-export interface WalletSettings {
-  showBalance: boolean,
-  showAddress: boolean,
-  whiteListTokenId: PublicKey,
+  showPrice: boolean,
+  enableCustomHTML: boolean,
 
 }

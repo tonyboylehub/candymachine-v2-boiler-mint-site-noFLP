@@ -23,7 +23,6 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
-    "canvas-confetti": "^1.4.0",
     "mime": "^3.0.0",
     "react": "^17.0.2",
     "react-countdown": "^2.3.2",
@@ -60,7 +59,6 @@
     ]
   },
   "devDependencies": {
-    "@types/canvas-confetti": "^1.4.2",
     "@types/styled-components": "^5.1.14"
   }
 }

@@ -1,15 +1,16 @@
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import { CandyMachineAccount } from './candy-machine';
-import { FairLaunchAccount } from './fair-launch';
+
 import { CircularProgress } from '@material-ui/core';
 import { GatewayStatus, useGateway } from '@civic/solana-gateway-react';
 import { useEffect, useState } from 'react';
-import { whitelistSettings, publicSaleSettings } from './userSettings';
+import { whitelistSettings, publicSaleSettings, mintPanic } from './userSettings';
 import { toDate }  from './utils'
 
 
 export const CTAButton = styled(Button)`
+  
   width: 100%;
   height: 60px;
   margin-top: 10px;
@@ -23,16 +24,16 @@ export const CTAButton = styled(Button)`
 export const MintButton = ({
   onMint,
   candyMachine,
-  fairLaunch,
+  
   isMinting,
-  fairLaunchBalance,
+  
   
 }: {
   onMint: () => Promise<void>;
   candyMachine: CandyMachineAccount | undefined;
-  fairLaunch?: FairLaunchAccount | undefined;
+  
   isMinting: boolean;
-  fairLaunchBalance: number;
+ 
 }) => {
   const { requestGatewayToken, gatewayStatus } = useGateway();
   const [clicked, setClicked] = useState(false);
@@ -90,9 +91,11 @@ export const MintButton = ({
   }, [gatewayStatus, clicked, setClicked, onMint]);
   return (
     <CTAButton
+      className='minting-button'
       disabled={
         candyMachine?.state.isSoldOut ||
         isMinting ||
+        mintPanic.enabled ||
         !(WhitelistMintActive || PublicMintActive)
         
 
@@ -116,16 +119,20 @@ export const MintButton = ({
       }}
       variant="contained"
     >
-      {fairLaunch?.ticket?.data?.state.punched && fairLaunchBalance === 0 ? (
-        'MINTED'
-      ) : candyMachine?.state.isSoldOut ? (
+      <div className='mint-button-text'>
+      {candyMachine?.state.isSoldOut ? (
         'SOLD OUT'
       ) : isMinting ? (
         <CircularProgress />
       
-      ) : (
+      ) : mintPanic.enabled ? (
+
+        'Mint Paused'
+
+      ) :  (
         'MINT'
       )}
+      </div>
     </CTAButton>
   );
 };

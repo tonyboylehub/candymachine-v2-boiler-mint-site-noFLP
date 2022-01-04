@@ -19,7 +19,7 @@ import {
 
 import { WalletDialogProvider } from "@solana/wallet-adapter-material-ui";
 import { ThemeProvider, createTheme } from "@material-ui/core";
-import { ConfettiProvider } from "./confetti";
+
 
 const theme = createTheme({
   palette: {
@@ -29,10 +29,6 @@ const theme = createTheme({
 
 const candyMachineId = process.env.REACT_APP_CANDY_MACHINE_ID
   ? new anchor.web3.PublicKey(process.env.REACT_APP_CANDY_MACHINE_ID)
-  : undefined;
-
-const fairLaunchId = process.env.REACT_APP_FAIR_LAUNCH_ID
-  ? new anchor.web3.PublicKey(process.env.REACT_APP_FAIR_LAUNCH_ID)
   : undefined;
 
 const network = process.env.REACT_APP_SOLANA_NETWORK as WalletAdapterNetwork;
@@ -138,16 +134,16 @@ const App = () => {
                 <ConnectionProvider endpoint={endpoint}>
                   <WalletProvider wallets={wallets} autoConnect>
                     <WalletDialogProvider>
-                      <ConfettiProvider>
+                      
                         <Minter
                           candyMachineId={candyMachineId}
-                          fairLaunchId={fairLaunchId}
+                          
                           connection={connection}
                           startDate={startDateSeed}
                           txTimeout={txTimeout}
                           rpcHost={rpcHost}
                         />
-                      </ConfettiProvider>
+                      
                     </WalletDialogProvider>
                   </WalletProvider>
                 </ConnectionProvider>
