@@ -3,8 +3,6 @@
 This is a stripped out Metaplex FLP site from the Metaplex repo at https://github.com/metaplex-foundation/metaplex
 This was built upon version v1.1.0
 
-Donations can be made at tonyboyle.sol
-
 After install ou want to head into 3 main areas after installing all the repositories and adding your candy machine ID to the .env file.
 
 1. Clone
@@ -65,3 +63,7 @@ To make this more beginner friendly I've moved most of the main CSS values into 
 
 Points to Mention
 * The mint button and UI is controlled by the whitelistMint and PublicMint settings in the userSettings.tsx. Even if your candymachine date is live you will still need to have your dates set within the userSettings to enable the button properly. You need to make sure your userSettings.tsx public mint settings are the same as your CandyMachine V2 config date settings.
+
+-------------------
+
+Donations can be made at tonyboyle.sol if you are feeling generous!
