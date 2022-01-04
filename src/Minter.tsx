@@ -242,7 +242,7 @@ const Home = (props: HomeProps) => {
    
     if(candyMachine?.state.itemsRedeemed == null) {
       setMintingTotal(0)
-      console.log('2222222222222222222222')
+
     } else {
       setMintingTotal(candyMachine?.state.itemsRedeemed)
     }
@@ -259,7 +259,7 @@ const Home = (props: HomeProps) => {
 
 
   const phase = getPhase(candyMachine);
-  console.log("Phase", phase);
+
 
   return (
     <Container>
