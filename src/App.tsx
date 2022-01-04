@@ -10,6 +10,8 @@ import {
   getPhantomWallet,
   getSolflareWallet,
   getSolletWallet,
+  getTorusWallet,
+  getMathWallet,
 } from "@solana/wallet-adapter-wallets";
 
 import {
@@ -44,7 +46,7 @@ const App = () => {
   const endpoint = useMemo(() => clusterApiUrl(network), []);
 
   const wallets = useMemo(
-    () => [getPhantomWallet(), getSolflareWallet(), getSolletWallet()],
+    () => [getPhantomWallet(), getSolflareWallet(), getSolletWallet(), getMathWallet() ],
     []
   );
 
