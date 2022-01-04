@@ -16,7 +16,7 @@ Open a terminal in the root of the cloned repo and run yarn install to install a
 
 ```yarn install ```
 
-Rename .env-example to .env and till it with your own data variables.
+Rename .env-example to .env and fill it with your own data variables.
 
 
 Run yarn start and all should pop up.
