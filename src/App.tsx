@@ -10,7 +10,6 @@ import {
   getPhantomWallet,
   getSolflareWallet,
   getSolletWallet,
-  getTorusWallet,
   getMathWallet,
 } from "@solana/wallet-adapter-wallets";
 

@@ -66,12 +66,12 @@ export interface HomeProps {
 }
 
 const Home = (props: HomeProps) => {
-  const [yourSOLBalance, setYourSOLBalance] = useState<number | null>(null);
+  // const [yourSOLBalance, setYourSOLBalance] = useState<number | null>(null);
   const rpcUrl = props.rpcHost;
   const [whiteListTokenBalance, setWhiteListTokenBalance] = useState<number>(0);
   const [isMinting, setIsMinting] = useState(false); // true when user got to press MINT
-  const [mintingTotal, setMintingTotal] = useState<number>(0);
-  const [itemsAvailable, setItemsAvailable] = useState<number | null>(null);
+  const [mintingTotal, setMintingTotal] = useState<number | null>(null);
+  const [itemsAvailable, setItemsAvailable] = useState<number| null>(null);
 
   const [candyMachine, setCandyMachine] = useState<CandyMachineAccount>();
 
@@ -129,7 +129,7 @@ const Home = (props: HomeProps) => {
             severity: "success",
           });
 
-          setMintingTotal((mintingTotal + 1))
+          setMintingTotal((mintingTotal! + 1))
 
           if (whiteListTokenBalance && whiteListTokenBalance > 0)
             setWhiteListTokenBalance((whiteListTokenBalance - 1));
@@ -181,16 +181,16 @@ const Home = (props: HomeProps) => {
       }
       console.log("wallet connected");
 
-      try {
-        const balance = await props.connection.getBalance(
-          anchorWallet.publicKey
-        );
-        console.log("Sol balance is: " + balance);
-        setYourSOLBalance(balance);
-      } catch (e) {
-        console.log("Problem getting fair launch state");
-        console.log(e);
-      }
+      // try {
+      //   const balance = await props.connection.getBalance(
+      //     anchorWallet.publicKey
+      //   );
+      //   console.log("Sol balance is: " + balance);
+      //   setYourSOLBalance(balance);
+      // } catch (e) {
+      //   console.log("Problem getting fair launch state");
+      //   console.log(e);
+      // }
 
       if (props.candyMachineId) {
         try {
@@ -239,15 +239,24 @@ const Home = (props: HomeProps) => {
       setItemsAvailable(candyMachine?.state.itemsAvailable)
     }
 
-    if(candyMachine?.state.itemsRedeemed){
-      setMintingTotal(candyMachine?.state.itemsRedeemed | 0)
+   
+    if(candyMachine?.state.itemsRedeemed == null) {
+      setMintingTotal(0)
+      console.log('2222222222222222222222')
+    } else {
+      setMintingTotal(candyMachine?.state.itemsRedeemed)
     }
+      
+    
 
     if (candyMachine?.state.price) {
       setPrice(candyMachine?.state.price.toNumber() / 1000000000);
     }
 
-  }, [candyMachine]);
+    
+
+  }, [candyMachine,]);
+
 
   const phase = getPhase(candyMachine);
   console.log("Phase", phase);
@@ -306,11 +315,13 @@ const Home = (props: HomeProps) => {
                     color="textSecondary"
                   >
                     <div className="test-stat">
-                      
+                    {mintingTotal  +
+                                " / " +
+                                itemsAvailable}
                         {(phase === Phase.WhiteListMint ||
                           phase === Phase.PublicMint) &&
-                          (itemsAvailable &&
-                            mintingTotal ? (
+                          (itemsAvailable !== null &&
+                            mintingTotal !== null ? (
                             <p>
                               {mintingTotal  +
                                 " / " +
