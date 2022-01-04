@@ -20,8 +20,6 @@ import {
   mintOneToken,
 } from "./candy-machine";
 
-
-
 import { AlertState, formatSol } from "./utils";
 import { CTAButton, MintButton } from "./MintButton";
 import { getPhase, Phase, PhaseHeader } from "./PhaseHeader";
@@ -32,8 +30,7 @@ import {
   welcomeSettings,
   MintWelcomeCustomHTML,
   MintWhitelistCustomHTML,
-  MintPublicSaleCustomHTML
-  
+  MintPublicSaleCustomHTML,
 } from "./userSettings";
 import { isFunction } from "lodash";
 import { publicKey } from "@project-serum/anchor/dist/utils";
@@ -62,7 +59,7 @@ const MintContainer = styled.div`
 
 export interface HomeProps {
   candyMachineId?: anchor.web3.PublicKey;
- 
+
   connection: anchor.web3.Connection;
   startDate: number;
   txTimeout: number;
@@ -70,14 +67,13 @@ export interface HomeProps {
 }
 
 const Home = (props: HomeProps) => {
-  
   const [yourSOLBalance, setYourSOLBalance] = useState<number | null>(null);
   const rpcUrl = props.rpcHost;
-  const [whiteListTokenBalance, setWhiteListTokenBalance] = useState<
-    number | null
-  >(null);
+  const [whiteListTokenBalance, setWhiteListTokenBalance] = useState<number | null>(null);
   const [isMinting, setIsMinting] = useState(false); // true when user got to press MINT
-  
+  const [mintingTotal, setMintingTotal] = useState<number | null>(null);
+  const [itemsAvailable, setItemsAvailable] = useState<number | null>(null);
+
   const [candyMachine, setCandyMachine] = useState<CandyMachineAccount>();
   const [currentTotalMints, setCurrentTotalMints] = useState<number>();
   const [price, setPrice] = useState<number | null>(null);
@@ -225,11 +221,20 @@ const Home = (props: HomeProps) => {
           { mint: candyMachine?.state.whitelistMintSettings?.mint }
         );
         setWhiteListTokenBalance(
-          tokenAmount.value[0].account.data.parsed.info.tokenAmount.amount
+          tokenAmount.value[0].account.data.parsed.info.tokenAmount.amount | 0
         );
       }
     }
     getTokenAmount();
+
+    if(candyMachine?.state.itemsAvailable){
+      setItemsAvailable(candyMachine?.state.itemsAvailable)
+    }
+
+    if(candyMachine?.state.itemsRedeemed){
+      setMintingTotal(candyMachine?.state.itemsRedeemed | 0)
+    }
+
 
     if (candyMachine?.state.price) {
       setPrice(candyMachine?.state.price.toNumber() / 1000000000);
@@ -238,7 +243,6 @@ const Home = (props: HomeProps) => {
 
   const phase = getPhase(candyMachine);
   console.log("Phase", phase);
-
 
   return (
     <Container>
@@ -260,14 +264,17 @@ const Home = (props: HomeProps) => {
             />
 
             <div>
-              {phase === Phase.Welcome &&
-                welcomeSettings.enableCustomHTML && 
+              {phase === Phase.Welcome && welcomeSettings.enableCustomHTML && (
                 <MintWelcomeCustomHTML />
-                }
+              )}
               {phase === Phase.WhiteListMint &&
-                whitelistSettings.enableCustomHTML && <MintWhitelistCustomHTML />}
+                whitelistSettings.enableCustomHTML && (
+                  <MintWhitelistCustomHTML />
+                )}
               {phase === Phase.PublicMint &&
-                publicSaleSettings.enableCustomHTML && <MintWhitelistCustomHTML/>}
+                publicSaleSettings.enableCustomHTML && (
+                  <MintWhitelistCustomHTML />
+                )}
 
               {(phase === Phase.PublicMint || Phase.WhiteListMint) && (
                 <>
@@ -294,12 +301,12 @@ const Home = (props: HomeProps) => {
                       <p className=" text-start">
                         {(phase === Phase.WhiteListMint ||
                           phase === Phase.PublicMint) &&
-                          (candyMachine?.state.itemsRedeemed &&
-                          candyMachine.state.itemsAvailable ? (
+                          (itemsAvailable &&
+                            mintingTotal ? (
                             <p>
-                              {candyMachine?.state.itemsRedeemed +
+                              {mintingTotal  +
                                 " / " +
-                                candyMachine?.state.itemsAvailable}
+                                itemsAvailable}
                             </p>
                           ) : (
                             <p className="loading"></p>
@@ -353,18 +360,14 @@ const Home = (props: HomeProps) => {
                         >
                           <MintButton
                             candyMachine={candyMachine}
-                            
                             isMinting={isMinting}
-                            
                             onMint={onMint}
                           />
                         </GatewayProvider>
                       ) : (
                         <MintButton
                           candyMachine={candyMachine}
-                          
                           isMinting={isMinting}
-                          
                           onMint={onMint}
                         />
                       )}
