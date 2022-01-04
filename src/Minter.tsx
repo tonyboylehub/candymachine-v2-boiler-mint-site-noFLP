@@ -129,10 +129,10 @@ const Home = (props: HomeProps) => {
             severity: "success",
           });
 
-          setMintingTotal(mintingTotal + 1)
+          setMintingTotal((mintingTotal + 1))
 
           if (whiteListTokenBalance && whiteListTokenBalance > 0)
-            setWhiteListTokenBalance(whiteListTokenBalance - 1);
+            setWhiteListTokenBalance((whiteListTokenBalance - 1));
         } else {
           setAlertState({
             open: true,
@@ -172,7 +172,6 @@ const Home = (props: HomeProps) => {
     }
   };
 
-  console.log(whiteListTokenBalance);
 
   useEffect(() => {
     (async () => {
@@ -211,25 +210,29 @@ const Home = (props: HomeProps) => {
     })();
   }, [anchorWallet, props.candyMachineId, props.connection]);
 
-  useEffect(() => {
-    async function getTokenAmount() {
-      if (
-        anchorWallet?.publicKey &&
-        candyMachine?.state.whitelistMintSettings?.mint
-      ) {
-        try{
-        var tokenAmount = await props.connection.getParsedTokenAccountsByOwner(
-          anchorWallet.publicKey,
-          { mint: candyMachine?.state.whitelistMintSettings?.mint }
-        );
-        setWhiteListTokenBalance(
-          tokenAmount.value[0].account.data.parsed.info.tokenAmount.amount
-        );
-      } catch {
-        setWhiteListTokenBalance(0);
-      }
-      }
+  async function getTokenAmount() {
+
+    if (
+      anchorWallet?.publicKey &&
+      candyMachine?.state.whitelistMintSettings?.mint
+    ) {
+      try{
+      var tokenAmount = await props.connection.getParsedTokenAccountsByOwner(
+        anchorWallet.publicKey,
+        { mint: candyMachine?.state.whitelistMintSettings?.mint }
+      );
+      setWhiteListTokenBalance(
+        tokenAmount.value[0].account.data.parsed.info.tokenAmount.amount
+      );
+    } catch {
+      setWhiteListTokenBalance(0);
     }
+    }
+
+  }
+
+  useEffect(() => {
+
     getTokenAmount();
 
     if(candyMachine?.state.itemsAvailable){
@@ -240,11 +243,11 @@ const Home = (props: HomeProps) => {
       setMintingTotal(candyMachine?.state.itemsRedeemed | 0)
     }
 
-
     if (candyMachine?.state.price) {
       setPrice(candyMachine?.state.price.toNumber() / 1000000000);
     }
-  });
+
+  }, [candyMachine]);
 
   const phase = getPhase(candyMachine);
   console.log("Phase", phase);
