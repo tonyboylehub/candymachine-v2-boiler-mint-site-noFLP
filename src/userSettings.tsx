@@ -49,6 +49,8 @@ export const mintPanic = {
 ///                             ///
 
 export const welcomeSettings: WelcomeSettings = {
+
+  //Title and Description
   title: "Welcome!",
   desc: "Connect your wallet and load in! Whitelist mint starts soon!",
 
@@ -103,7 +105,7 @@ export const whitelistSettings: WhitelistSettings = {
   //Example date below
   // date('29 2021 00:00:00 GMT')
 
-  //Wallet Connected Title and Description
+  //Wallet Title and Description
   title: "White List",
   desc: undefined,
 
