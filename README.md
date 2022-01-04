@@ -1,23 +1,74 @@
 # candymachine-v2-boiler-mint-site-noFLP
 
+![The Boiler Plate](https://github.com/tonyboylehub/candymachine-v2-boiler-mint-site-noFLP/blob/228e97fc6935153fefcf4f3033b0686f852a9e44/doc-resources/The-Boiler-Plate.png)
+
 This is a stripped out Metaplex FLP site from the Metaplex repo at https://github.com/metaplex-foundation/metaplex
 This was built upon version v1.1.0
 
-After install ou want to head into 3 main areas after installing all the repositories and adding your candy machine ID to the .env file.
+Donations can be made at tonyboyle.sol if you are feeling generous!
 
-1. Clone
-2. Yarn Install
-3. Rename .env-example to .env and add in Candy Machine ID
-4. Yarn Start
+
+# Installation
+
+Clone the repo from the url below.
+
+ 	git clone https://github.com/tonyboylehub/candymachine-v2-boiler-mint-site-noFLP.git
+
+Open a terminal in the root of the cloned repo and run yarn install to install all the required dependencies
+
+	yarn install
+
+Rename .env-example to .env and fill it with your own data variables.
+
+
+Run yarn start and all should pop up.
+
+	yarn start
+
+---
 
 You will need some basic html and css knowledge to get somewhere with this boilerplate. While I kept React components to a minimum where possible in order to help the new people in the web3 space you'll still need some basic web dev knowledge to make major adjustments. Good places to start are sites like https://www.w3schools.com/ and checking out their HTML and CSS tutorials. You shouldn't need any JS to get this up and running.
 
-The site is mobile ready in the sense that it has a mobile menue and some preset anchor links. You'll need to dive through the code to adjust all these to your lking in both the standard nav and the mobile nav.
+The site is mobile ready in the sense that it has a mobile menu and some preset anchor links. You'll need to dive through the code to adjust all these to your liking in both the standard nav and the mobile nav.
 
---------------------
+
+
+
+# Customising
+
+### Site Editing
+There are 3 main areas to focus on editing and they are;
+
+ **Site Design** - `src/app.tsx`<br/>
+All the HTML is located here and includes navigation, mobile menus. You'll need basic HTML knowledge to look through this and adjust the text and images.
+
+**Site Style** - `src/userCSS.css`<br/>
+I've moved all the main colors and styling into CSS variables into this file to make everything accessible in one area for new people.
+
+If you are more comfortable with css then head over to `src/app.css` 
+
+ **User Settings** - `src/userSettings.tsx`<br/>
+These are the user settings that can display some custom elements on the MintUI and also handle the date logic for showing each of the 3 phases of the MintUI.
+
+	Welcome-> WhiteList Mint(*if enabled*) -> Public Mint
+
+Please pay attention to the dates for each section as this determines how the MintUI is rendered and also if the mint button is enabled.
+
+# WhiteListing
+While the UI has a whitelisting function you still need to set up your candy machine for whitelisting.
+
+For white listing you need create your own SLP token. With whitelisting enabled on the Candy Machine v2 you set your custom SLP token address and update it to the Candy Machine. When ever someone visits your Candy Machine and holds on of your SLP tokens they can mint an item wether your Candy Machine v2 is live or not.
+
+To combat this the Mint button is disabled on the site unless the whitelist dates are met within the `src/userSettings.tsx` file.
+
+If the dates are met the UI will switch to the whitelisting phase, and enable the mint button on the site enabling users of the token to redeem their NFT.
+
+
+# Update Log
+
 v1.2 update
 
-- Added whitelist token counting and mint eledgibilty. App will check wallet for the whitelist token set in your candy machine config.json white list settings and show the user how many mints they are able to make during whitelist.
+- Added whitelist token counting and mint eligibility. App will check wallet for the whitelist token set in your candy machine config.json white list settings and show the user how many mints they are able to make during whitelist.
 
 - Added Mint panic function to user settings. 
 This will disable minting UI on the Front End in one setting and display a custom message. Useful is minting isn't quite going to plan due to network errors or such.
@@ -39,31 +90,6 @@ For more advaned users head over to app.css
 - Added a few more user settings.
 
 - Restyled The Mint UI box.
+---
 
--------------------
 
-src/app.tsx
-
-This is where all the HTML for the site is laid out. I wrote it mainly in HTML purely to make it easier and logical for beginners in the space.
-
---------------------
-
-src/userSettings.tsx
-
-Have a read through here.
-This is where you can control the UI of the minting machine.
-
---------------------
-
-src/userCSS.css
-
-To make this more beginner friendly I've moved most of the main CSS values into CSS variables which can be changed in the :root area at the start of the document. These are mainly coloring and small UI tweaks and I don't think you'll be able to break to much here.
-
---------------------
-
-Points to Mention
-* The mint button and UI is controlled by the whitelistMint and PublicMint settings in the userSettings.tsx. Even if your candymachine date is live you will still need to have your dates set within the userSettings to enable the button properly. You need to make sure your userSettings.tsx public mint settings are the same as your CandyMachine V2 config date settings.
-
--------------------
-
-Donations can be made at tonyboyle.sol if you are feeling generous!

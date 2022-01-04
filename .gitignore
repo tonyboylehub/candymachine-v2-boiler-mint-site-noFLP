@@ -2,6 +2,9 @@
 node_modules/
 jspm_packages/
 
+#Doc Resources
+doc-resources/
+
 # Distribution directories
 dist/
 
@@ -25,3 +28,5 @@ typings/
 
 #Enviroment File
 .env
+
+
