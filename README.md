@@ -89,6 +89,10 @@ There is a mintingPanic option availbe in user settings. If for what ever reason
 
 # Update Log
 
+v1.2.1 Update
+- Fixed some build warnings that were not playing well with Vercel deployment that caused a deployment error.
+- Fixed some logic
+
 v1.2 update
 
 - Added whitelist token counting and mint eligibility. App will check wallet for the whitelist token set in your candy machine config.json white list settings and show the user how many mints they are able to make during whitelist.
