@@ -32,11 +32,11 @@ export function getPhase(
   candyMachine: CandyMachineAccount | undefined
 ): Phase {
   const curr = new Date().getTime();
-  const candyMachineGoLive = toDate(candyMachine?.state.goLiveDate)?.getTime();
+  // const candyMachineGoLive = toDate(candyMachine?.state.goLiveDate)?.getTime();
   const whiteListStart = toDate(whitelistSettings.startDate)?.getTime();
   const whiteListEnd = toDate(whitelistSettings.endDate)?.getTime();
   const publicSaleStart = toDate(publicSaleSettings.startDate)?.getTime();
-  const publicSaleEnd = toDate(publicSaleSettings.endDate)?.getTime();
+  // const publicSaleEnd = toDate(publicSaleSettings.endDate)?.getTime();
 
   //Countdown, WhiteList Minting, Public Minting,
 

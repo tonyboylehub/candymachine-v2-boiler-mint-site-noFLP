@@ -20,8 +20,8 @@ import {
   mintOneToken,
 } from "./candy-machine";
 
-import { AlertState,} from "./utils";
-import {  MintButton } from "./MintButton";
+import { AlertState } from "./utils";
+import { MintButton } from "./MintButton";
 import { getPhase, Phase, PhaseHeader } from "./PhaseHeader";
 import { GatewayProvider } from "@civic/solana-gateway-react";
 import {
@@ -32,7 +32,6 @@ import {
   MintWhitelistCustomHTML,
   MintPublicSaleCustomHTML,
 } from "./userSettings";
-
 
 const ConnectButton = styled(WalletDialogButton)`
   position: absolute;
@@ -71,7 +70,8 @@ const Home = (props: HomeProps) => {
   const [whiteListTokenBalance, setWhiteListTokenBalance] = useState<number>(0);
   const [isMinting, setIsMinting] = useState(false); // true when user got to press MINT
   const [mintingTotal, setMintingTotal] = useState<number | null>(null);
-  const [itemsAvailable, setItemsAvailable] = useState<number| null>(null);
+  const [itemsAvailable, setItemsAvailable] = useState<number | null>(null);
+  const [publicKey, setPublicKey] = useState<PublicKey>();
 
   const [candyMachine, setCandyMachine] = useState<CandyMachineAccount>();
 
@@ -129,10 +129,10 @@ const Home = (props: HomeProps) => {
             severity: "success",
           });
 
-          setMintingTotal((mintingTotal! + 1))
+          setMintingTotal(mintingTotal! + 1);
 
           if (whiteListTokenBalance && whiteListTokenBalance > 0)
-            setWhiteListTokenBalance((whiteListTokenBalance - 1));
+            setWhiteListTokenBalance(whiteListTokenBalance - 1);
         } else {
           setAlertState({
             open: true,
@@ -172,7 +172,6 @@ const Home = (props: HomeProps) => {
     }
   };
 
-
   useEffect(() => {
     (async () => {
       if (!anchorWallet) {
@@ -180,6 +179,9 @@ const Home = (props: HomeProps) => {
         return;
       }
       console.log("wallet connected");
+      if(anchorWallet.publicKey){
+      setPublicKey(anchorWallet.publicKey)
+      }
 
       // try {
       //   const balance = await props.connection.getBalance(
@@ -210,56 +212,45 @@ const Home = (props: HomeProps) => {
     })();
   }, [anchorWallet, props.candyMachineId, props.connection]);
 
-  async function getTokenAmount() {
-
-    if (
-      anchorWallet?.publicKey &&
-      candyMachine?.state.whitelistMintSettings?.mint
-    ) {
-      try{
-      var tokenAmount = await props.connection.getParsedTokenAccountsByOwner(
-        anchorWallet.publicKey,
-        { mint: candyMachine?.state.whitelistMintSettings?.mint }
-      );
-      setWhiteListTokenBalance(
-        tokenAmount.value[0].account.data.parsed.info.tokenAmount.amount
-      );
-    } catch {
-      setWhiteListTokenBalance(0);
-    }
-    }
-
-  }
-
   useEffect(() => {
+    async function getTokenAmount() {
+      if (
+        publicKey &&
+        candyMachine?.state.whitelistMintSettings?.mint
+      ) {
+        try {
+          var tokenAmount =
+            await props.connection.getParsedTokenAccountsByOwner(
+              publicKey,
+              { mint: candyMachine?.state.whitelistMintSettings?.mint }
+            );
+          setWhiteListTokenBalance(
+            tokenAmount.value[0].account.data.parsed.info.tokenAmount.amount
+          );
+        } catch {
+          setWhiteListTokenBalance(0);
+        }
+      }
+    }
 
     getTokenAmount();
 
-    if(candyMachine?.state.itemsAvailable){
-      setItemsAvailable(candyMachine?.state.itemsAvailable)
+    if (candyMachine?.state.itemsAvailable) {
+      setItemsAvailable(candyMachine?.state.itemsAvailable);
     }
 
-   
-    if(candyMachine?.state.itemsRedeemed == null) {
-      setMintingTotal(0)
-
+    if (candyMachine?.state.itemsRedeemed == null) {
+      setMintingTotal(0);
     } else {
-      setMintingTotal(candyMachine?.state.itemsRedeemed)
+      setMintingTotal(candyMachine?.state.itemsRedeemed);
     }
-      
-    
 
     if (candyMachine?.state.price) {
       setPrice(candyMachine?.state.price.toNumber() / 1000000000);
     }
-
-    
-
-  }, [candyMachine,]);
-
+  }, [candyMachine, publicKey, props.connection]);
 
   const phase = getPhase(candyMachine);
-
 
   return (
     <Container>
@@ -300,7 +291,7 @@ const Home = (props: HomeProps) => {
                       {whiteListTokenBalance >= 0 ? (
                         <h1>{whiteListTokenBalance}</h1>
                       ) : (
-                        <h1 className="loading"></h1>
+                        <div className="loading"></div>
                       )}
 
                       <div>
@@ -315,19 +306,13 @@ const Home = (props: HomeProps) => {
                     color="textSecondary"
                   >
                     <div className="test-stat">
-                        {(phase === Phase.WhiteListMint ||
-                          phase === Phase.PublicMint) &&
-                          (itemsAvailable !== null &&
-                            mintingTotal !== null ? (
-                            <p>
-                              {mintingTotal  +
-                                " / " +
-                                itemsAvailable}
-                            </p>
-                          ) : (
-                            <p className="loading"></p>
-                          ))}
-                      
+                      {(phase === Phase.WhiteListMint ||
+                        phase === Phase.PublicMint) &&
+                        (itemsAvailable !== null && mintingTotal !== null ? (
+                          <p>{mintingTotal + " / " + itemsAvailable}</p>
+                        ) : (
+                          <p className="loading"></p>
+                        ))}
                     </div>
 
                     <div className="text-end">

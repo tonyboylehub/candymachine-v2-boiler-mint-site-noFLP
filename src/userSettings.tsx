@@ -100,7 +100,7 @@ export const whitelistSettings: WhitelistSettings = {
   enabled: true,
 
   startDate: date("1 Jan 2022 00:00:00 GMT"),
-  endDate: date("5 Jan 2022 00:00:00 GMT"),
+  endDate: date("8 Jan 2022 00:00:00 GMT"),
   countdown: true,
   //Example date below
   // date('29 2021 00:00:00 GMT')
