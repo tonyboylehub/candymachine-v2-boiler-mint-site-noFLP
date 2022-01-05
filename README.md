@@ -62,7 +62,7 @@ There are 3 phases to the minting UI.
 To set this correctly you have to set your dates up correctly in the `userSettings.tsx` as well as various other settings such as custom Title, custom description, and even under each phase I've left a little React component that has a marked HTML area for each phase that will inject into the mintUI box.
 
 ### Welcome Phase
-This is enabled when both the Whitelist Phase and PublicMint start dates are set in the future
+This is enabled when both the Whitelist Phase and PublicMint start dates are currently not active.
 
 ### Whitelist Phase
 This will be enabled when the Whitelist Phase dates are met and active. You can optionally turn this off and set the dates into the past if you do not wish to use whitelist setting. Make sure your Whitelist phase end date is to disable before the PublicMint startdate begins.
