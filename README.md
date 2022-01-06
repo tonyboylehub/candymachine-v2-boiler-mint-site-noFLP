@@ -31,7 +31,8 @@ You will need some basic html and css knowledge to get somewhere with this boile
 
 The site is mobile ready in the sense that it has a mobile menu and some preset anchor links. You'll need to dive through the code to adjust all these to your liking in both the standard nav and the mobile nav.
 
-
+## Notice!
+There seems to be an error with CandymachineV2 and the captcha that won't allow whitelist tokens to be spent while the Gatekeeper is on in the candymachine config and the start date is in the future (whistlist presale mode). I think this is an issue the candymachine itself and the way it deals with its own captcha process. You'll have to have captcha turned off during whitelist/presale and then turn it back on if you want to use it for public sale.
 
 
 # Customising
