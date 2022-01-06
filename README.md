@@ -66,7 +66,7 @@ To set this correctly you have to set your dates up correctly in the `userSettin
 This is enabled when both the Whitelist Phase and PublicMint start dates are currently not active.
 
 ### Whitelist Phase
-This will be enabled when the Whitelist Phase dates are met and active. You can optionally turn this off and set the dates into the past if you do not wish to use whitelist setting. Make sure your Whitelist phase end date is to disable before the PublicMint startdate begins.
+This will be enabled when the Whitelist Phase dates are met and active. You can optionally turn this off and set the dates into the past if you do not wish to use whitelist. Make sure your Whitelist phase end date is set to time out before the PublicMint startdate begins.
 
 ### Public mint stage
 Set the start date as the same date as your CandyMachine this will trigger the UI of PublicMint stage.
