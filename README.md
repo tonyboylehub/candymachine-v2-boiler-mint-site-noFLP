@@ -18,7 +18,7 @@ Donations can be made at tonyboyle.sol if you are feeling generous!
 
 	```yarn install```
 
-3. Rename .env-example to .env and fill it with your own data variables.
+3. Rename `.env-example` to `.env` and fill it with your own data variables.
 
 
 4. Run yarn start and all should pop up.
