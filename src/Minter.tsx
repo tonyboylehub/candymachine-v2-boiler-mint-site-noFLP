@@ -179,8 +179,8 @@ const Home = (props: HomeProps) => {
         return;
       }
       console.log("wallet connected");
-      if(anchorWallet.publicKey){
-      setPublicKey(anchorWallet.publicKey)
+      if (anchorWallet.publicKey) {
+        setPublicKey(anchorWallet.publicKey)
       }
 
       // try {
@@ -219,21 +219,27 @@ const Home = (props: HomeProps) => {
         candyMachine?.state.whitelistMintSettings?.mint
       ) {
         try {
-          var tokenAmount =
+          const tokenAmount =
             await props.connection.getParsedTokenAccountsByOwner(
               publicKey,
               { mint: candyMachine?.state.whitelistMintSettings?.mint }
             );
-          setWhiteListTokenBalance(
-            tokenAmount.value[0].account.data.parsed.info.tokenAmount.amount
-          );
+
+          return tokenAmount.value[0].account.data.parsed.info.tokenAmount.amount
         } catch {
-          setWhiteListTokenBalance(0);
+          return 0
         }
       }
     }
 
-    getTokenAmount();
+    getTokenAmount().then((wlToken) => {
+      setWhiteListTokenBalance(wlToken);
+      if (candyMachine?.state.whitelistMintSettings?.discountPrice && wlToken) {
+        setPrice(candyMachine?.state.whitelistMintSettings?.discountPrice.toNumber() / 1000000000);
+      } else if (candyMachine?.state.price) {
+        setPrice(candyMachine?.state.price.toNumber() / 1000000000);
+      }
+    })
 
     if (candyMachine?.state.itemsAvailable) {
       setItemsAvailable(candyMachine?.state.itemsAvailable);
@@ -245,9 +251,6 @@ const Home = (props: HomeProps) => {
       setMintingTotal(candyMachine?.state.itemsRedeemed);
     }
 
-    if (candyMachine?.state.price) {
-      setPrice(candyMachine?.state.price.toNumber() / 1000000000);
-    }
   }, [candyMachine, publicKey, props.connection]);
 
   const phase = getPhase(candyMachine);
@@ -317,8 +320,8 @@ const Home = (props: HomeProps) => {
 
                     <div className="text-end">
                       {(phase === Phase.Welcome && welcomeSettings.showPrice) ||
-                      phase === Phase.WhiteListMint ||
-                      phase === Phase.PublicMint ? (
+                        phase === Phase.WhiteListMint ||
+                        phase === Phase.PublicMint ? (
                         <>
                           {price ? (
                             <p>{price} Sol</p>
@@ -339,9 +342,9 @@ const Home = (props: HomeProps) => {
                   ) : (
                     <MintContainer>
                       {candyMachine?.state.isActive &&
-                      candyMachine?.state.gatekeeper &&
-                      wallet.publicKey &&
-                      wallet.signTransaction ? (
+                        candyMachine?.state.gatekeeper &&
+                        wallet.publicKey &&
+                        wallet.signTransaction ? (
                         <GatewayProvider
                           wallet={{
                             publicKey:
