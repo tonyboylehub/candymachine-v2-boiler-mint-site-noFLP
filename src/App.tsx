@@ -21,7 +21,6 @@ import {
 import { WalletDialogProvider } from "@solana/wallet-adapter-material-ui";
 import { ThemeProvider, createTheme } from "@material-ui/core";
 
-
 const theme = createTheme({
   palette: {
     type: "dark",
@@ -45,7 +44,12 @@ const App = () => {
   const endpoint = useMemo(() => clusterApiUrl(network), []);
 
   const wallets = useMemo(
-    () => [getPhantomWallet(), getSolflareWallet(), getSolletWallet(), getMathWallet() ],
+    () => [
+      getPhantomWallet(),
+      getSolflareWallet(),
+      getSolletWallet(),
+      getMathWallet(),
+    ],
     []
   );
 
@@ -58,8 +62,8 @@ const App = () => {
   return (
     <div>
       <div id="mobileNavContainer" className="mobile-nav">
-        <div className="mobile-nav-close-button" >
-          <img src="/icons/close.svg" alt="" onClick={toggleMenu}/>
+        <div className="mobile-nav-close-button">
+          <img src="/icons/close.svg" alt="" onClick={toggleMenu} />
         </div>
         <ul>
           <li>
@@ -87,8 +91,12 @@ const App = () => {
           </li>
           <li>
             <div className="social-icons">
-              <img className="nav-social" src="/icons/twitter.svg" alt="" />
-              <img className="nav-social" src="/icons/discord.svg" alt="" />
+              <a href="https://twitter.com" target="_blank" rel="noreferrer">
+                <img className="nav-social" src="/icons/twitter.svg" alt="" />
+              </a>
+              <a href="https://discord.com" target="_blank" rel="noreferrer">
+                <img className="nav-social" src="/icons/discord.svg" alt="" />
+              </a>
             </div>
           </li>
         </ul>
@@ -112,101 +120,103 @@ const App = () => {
             Link 4
           </a>
           <div className="social-icons hide-800">
-            <img className="nav-social" src="/icons/twitter.svg" alt="" />
-            <img className="nav-social" src="/icons/discord.svg" alt="" />
+            <a href="https://twitter.com" target="_blank" rel="noreferrer">
+              <img className="nav-social" src="/icons/twitter.svg" alt="" />
+            </a>
+            <a href="https://discord.com" target="_blank" rel="noreferrer">
+              <img className="nav-social" src="/icons/discord.svg" alt="" />
+            </a>
           </div>
         </div>
       </nav>
       <div className="content-wrapper">
-          <header className="card" id="link1">
-            <div style={{ padding: "0 24px 0 24px 0" }}>
-              <h3 className="text-secondary-color">Welcome To</h3>
-              <h1 className="pb-3">The Boiler Plate</h1>
-              <p className="text-secondary-color">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                scelerisque ipsum non est porta mollis. Donec sapien sapien, dictum
-                eget enim sed, hendrerit semper orci. Donec ante magna, consequat at
-                eros ac, eleifend dictum sem. Nam vitae condimentum lorem.
-                Vestibulum molestie dui turpis, tincidunt porta sem congue nec.
-              </p>
-            </div>
-            <div>
-              <ThemeProvider theme={theme}>
-                <ConnectionProvider endpoint={endpoint}>
-                  <WalletProvider wallets={wallets} autoConnect>
-                    <WalletDialogProvider>
-                      
-                        <Minter
-                          candyMachineId={candyMachineId}
-                          
-                          connection={connection}
-                          startDate={startDateSeed}
-                          txTimeout={txTimeout}
-                          rpcHost={rpcHost}
-                        />
-                      
-                    </WalletDialogProvider>
-                  </WalletProvider>
-                </ConnectionProvider>
-              </ThemeProvider>
-            </div>
-          </header>
+        <header className="card" id="link1">
+          <div style={{ padding: "0 24px 0 24px 0" }}>
+            <h3 className="text-secondary-color">Welcome To</h3>
+            <h1 className="pb-3">The Boiler Plate</h1>
+            <p className="text-secondary-color">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+              scelerisque ipsum non est porta mollis. Donec sapien sapien,
+              dictum eget enim sed, hendrerit semper orci. Donec ante magna,
+              consequat at eros ac, eleifend dictum sem. Nam vitae condimentum
+              lorem. Vestibulum molestie dui turpis, tincidunt porta sem congue
+              nec.
+            </p>
+          </div>
+          <div>
+            <ThemeProvider theme={theme}>
+              <ConnectionProvider endpoint={endpoint}>
+                <WalletProvider wallets={wallets} autoConnect>
+                  <WalletDialogProvider>
+                    <Minter
+                      candyMachineId={candyMachineId}
+                      connection={connection}
+                      startDate={startDateSeed}
+                      txTimeout={txTimeout}
+                      rpcHost={rpcHost}
+                    />
+                  </WalletDialogProvider>
+                </WalletProvider>
+              </ConnectionProvider>
+            </ThemeProvider>
+          </div>
+        </header>
 
-          <div id="link2" className="container">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac velit
-            aliquet, semper sapien sed, ornare augue. Phasellus sed velit interdum,
-            sagittis metus quis, facilisis lectus. Cras sollicitudin purus at magna
-            eleifend maximus. Nulla nec nulla in nunc maximus viverra in at mauris.
-            Fusce sodales dolor nisi, et vehicula orci porta id. In placerat nunc
-            sed erat lacinia tincidunt. Interdum et malesuada fames ac ante ipsum
-            primis in faucibus. Vestibulum commodo eget metus vitae tempus. Aliquam
-            pharetra mi at efficitur accumsan. Curabitur venenatis libero a ex
-            porttitor, at auctor turpis hendrerit. Nam commodo, risus non consequat
-            pretium, erat ante auctor purus, a cursus dolor erat at velit. Maecenas
-            dignissim, dolor sed laoreet aliquam, tortor lacus faucibus urna, eget
-            mattis massa sem ac dui. Nam semper hendrerit interdum. Etiam at dictum
-            nisi.
+        <div id="link2" className="container">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac velit
+          aliquet, semper sapien sed, ornare augue. Phasellus sed velit
+          interdum, sagittis metus quis, facilisis lectus. Cras sollicitudin
+          purus at magna eleifend maximus. Nulla nec nulla in nunc maximus
+          viverra in at mauris. Fusce sodales dolor nisi, et vehicula orci porta
+          id. In placerat nunc sed erat lacinia tincidunt. Interdum et malesuada
+          fames ac ante ipsum primis in faucibus. Vestibulum commodo eget metus
+          vitae tempus. Aliquam pharetra mi at efficitur accumsan. Curabitur
+          venenatis libero a ex porttitor, at auctor turpis hendrerit. Nam
+          commodo, risus non consequat pretium, erat ante auctor purus, a cursus
+          dolor erat at velit. Maecenas dignissim, dolor sed laoreet aliquam,
+          tortor lacus faucibus urna, eget mattis massa sem ac dui. Nam semper
+          hendrerit interdum. Etiam at dictum nisi.
+        </div>
+
+        <div id="link3" className="container card">
+          <h1 className="pb-3">Lorem ipsum</h1>
+        </div>
+
+        <div id="link4" className="container faq">
+          <h1 style={{ padding: "0 0 24px 0" }}>FAQ</h1>
+          <div>
+            <h4>Lorem ipsum?</h4>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Suspendisse id metus id mauris tincidunt posuere. Vivamus neque
+              odio, imperdiet vitae.
+            </p>
+
+            <hr />
           </div>
 
-          <div id="link3" className="container card">
-            <h1 className="pb-3">Lorem ipsum</h1>
+          <div>
+            <h4>Lorem ipsum?</h4>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Suspendisse id metus id mauris tincidunt posuere. Vivamus neque
+              odio, imperdiet vitae.
+            </p>
+
+            <hr />
           </div>
 
-          <div id="link4" className="container faq">
-            <h1 style={{ padding: "0 0 24px 0" }}>FAQ</h1>
-            <div>
-              <h4>Lorem ipsum?</h4>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                id metus id mauris tincidunt posuere. Vivamus neque odio, imperdiet
-                vitae.
-              </p>
+          <div>
+            <h4>Lorem ipsum?</h4>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Suspendisse id metus id mauris tincidunt posuere. Vivamus neque
+              odio, imperdiet vitae.
+            </p>
 
-              <hr />
-            </div>
-
-            <div>
-              <h4>Lorem ipsum?</h4>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                id metus id mauris tincidunt posuere. Vivamus neque odio, imperdiet
-                vitae.
-              </p>
-
-              <hr />
-            </div>
-
-            <div>
-              <h4>Lorem ipsum?</h4>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                id metus id mauris tincidunt posuere. Vivamus neque odio, imperdiet
-                vitae.
-              </p>
-
-              <hr />
-            </div>
+            <hr />
           </div>
+        </div>
       </div>
     </div>
   );
